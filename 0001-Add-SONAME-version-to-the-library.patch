@@ -1,0 +1,28 @@
+From ae4cdbf6d82676222ab3af481a1e164e529f6c16 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Robert-Andr=C3=A9=20Mauchin?= <zebob.m@gmail.com>
+Date: Mon, 24 Sep 2018 13:28:05 +0200
+Subject: [PATCH] Add SONAME version to the library
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Robert-André Mauchin <zebob.m@gmail.com>
+---
+ libshaderc/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libshaderc/CMakeLists.txt b/libshaderc/CMakeLists.txt
+index 14da8ce..0eb3698 100644
+--- a/libshaderc/CMakeLists.txt
++++ b/libshaderc/CMakeLists.txt
+@@ -21,6 +21,7 @@ target_compile_definitions(shaderc_shared
+     PRIVATE SHADERC_IMPLEMENTATION
+     PUBLIC SHADERC_SHAREDLIB
+ )
++set_target_properties(shaderc_shared PROPERTIES SOVERSION 1)
+ 
+ if(SHADERC_ENABLE_INSTALL)
+   install(
+-- 
+2.17.1
+

@@ -1,0 +1,36 @@
+From f3e0470ccf96a48f6e5701aa64aa831d51769d8e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Robert-Andr=C3=A9=20Mauchin?= <zebob.m@gmail.com>
+Date: Sun, 30 Sep 2018 20:53:08 +0200
+Subject: [PATCH] Drop third party code in CMakeLists.txt
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Robert-André Mauchin <zebob.m@gmail.com>
+---
+ CMakeLists.txt | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b9bd0df..bd2c9f7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -52,15 +52,9 @@ endif(MSVC)
+ 
+ # Configure subdirectories.
+ # We depend on these for later projects, so they should come first.
+-add_subdirectory(third_party)
+ 
+ add_subdirectory(libshaderc_util)
+ add_subdirectory(libshaderc)
+ add_subdirectory(glslc)
+ add_subdirectory(examples)
+ 
+-add_custom_target(build-version
+-  ${PYTHON_EXE}
+-  ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
+-  ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR}
+-  COMMENT "Update build-version.inc in the Shaderc build directory (if necessary).")
+-- 
+2.19.0
+
