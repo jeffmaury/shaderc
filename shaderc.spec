@@ -1,14 +1,14 @@
-# Release 2017.2
-%global commit          7a23a01742b88329fb2260eda007172135ba25d4
+# Release 2018.0
+%global commit          7d8582bb10c94889f0fc603cb10728faa58b93e1
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20180924
-%global gitversion      beginning-449-g7a23a01
+%global snapshotdate    20181003
+%global gitversion      v2018.0
 
 # Need to keep this in sync with spirv-tools
-%global spirv_commit    f508896d6487d09f5c9a2a3835595446fec0791a
+%global spirv_commit    26a698c34788bb69123a1f3789970a16cf4d9641
 
 Name:           shaderc
-Version:        2017.2
+Version:        2018.0
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
@@ -18,10 +18,11 @@ Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
 # https://github.com/google/shaderc/pull/463
 Patch0:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/463.patch#/0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
-# https://github.com/google/shaderc/pull/493
-Patch1:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/493.patch#/0001-Add-SONAME-version-to-the-library.patch
 # Patch to unbundle 3rd party code
-Patch2:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
+Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
+# SPV_NV_mesh_shader is only available in theGIT master of glslang
+# Delaying inclusion until neyt glslang release
+Patch2:         0001-Revert-Add-support-for-SPV_NV_mesh_shader.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -138,6 +139,9 @@ ctest -V
 
 
 %changelog
+* Wed Oct 03 2018 Robert-André Mauchin <zebob.m@gmail.com> - 2018.0-1
+- Release 2018.0
+
 * Mon Sep 24 2018 Robert-André Mauchin <zebob.m@gmail.com> - 2017.2-1
 - Initial build
 
