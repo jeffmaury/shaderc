@@ -9,7 +9,7 @@
 
 Name:           shaderc
 Version:        2018.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -139,6 +139,9 @@ ctest -V
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2018.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Wed Oct 03 2018 Robert-André Mauchin <zebob.m@gmail.com> - 2018.0-1
 - Release 2018.0
 
