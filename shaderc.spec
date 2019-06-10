@@ -1,15 +1,16 @@
-# Release 2018.0
-%global commit          7d8582bb10c94889f0fc603cb10728faa58b93e1
+# Release 2019.0
+%global commit          34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20181003
-%global gitversion      v2018.0
+%global snapshotdate    20190609
+%global gitversion      v2019.0
 
 # Need to keep this in sync with spirv-tools
-%global spirv_commit    26a698c34788bb69123a1f3789970a16cf4d9641
+%global spirv_commit    2297d4a3dfcbfd2a8b4312fab055ae26e3289fd3
+%global spirv_version   v2019.1
 
 Name:           shaderc
-Version:        2018.0
-Release:        2%{?dist}
+Version:        2019.0
+Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -20,9 +21,6 @@ Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Patch0:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/463.patch#/0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
-# SPV_NV_mesh_shader is only available in theGIT master of glslang
-# Delaying inclusion until neyt glslang release
-Patch2:         0001-Revert-Add-support-for-SPV_NV_mesh_shader.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -34,13 +32,13 @@ BuildRequires:  spirv-tools
 BuildRequires:  spirv-tools-devel
 
 %description
-A collection of tools, libraries and tests for shader compilation. 
+A collection of tools, libraries and tests for shader compilation.
 
 Shaderc aims to to provide:
- - a command line compiler with GCC- and Clang-like usage, for better 
+ - a command line compiler with GCC- and Clang-like usage, for better
    integration with build systems
  - an API where functionality can be added without breaking existing clients
- - an API supporting standard concurrency patterns across multiple 
+ - an API supporting standard concurrency patterns across multiple
    operating systems
  - increased functionality such as file #include support
 
@@ -84,11 +82,11 @@ Static libraries for libshaderc.
 rm -rf third_party
 
 # Stolen from Gentoo
-# Create build-version.inc since we want to use our packaged 
+# Create build-version.inc since we want to use our packaged
 # SPIRV-Tools and glslang
 echo \"shaderc $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' CHANGES) %{gitversion}\" \
         > glslc/src/build-version.inc
-echo \"spirv-tools $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' /usr/share/doc/spirv-tools/CHANGES) %{spirv_commit}\" \
+echo \"spirv-tools $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' /usr/share/doc/spirv-tools/CHANGES) %{spirv_version}\" \
         >> glslc/src/build-version.inc
 echo \"glslang \'\'\" >> glslc/src/build-version.inc
 
@@ -129,16 +127,22 @@ ctest -V
 %files -n libshaderc-devel
 %{_includedir}/%{name}/
 %{_libdir}/libshaderc_shared.so
+%{_libdir}/pkgconfig/shaderc.pc
 
 
 %files -n libshaderc-static
 %license LICENSE
 %{_libdir}/libshaderc.a
 %{_libdir}/libshaderc_combined.a
-%{_libdir}/libshaderc_util.a
+%{_libdir}/pkgconfig/shaderc_static.pc
+%{_libdir}/pkgconfig/shaderc_combined.pc
+
 
 
 %changelog
+* Mon Jun 10 00:18:18 CEST 2019 Robert-André Mauchin <zebob.m@gmail.com> - 2019.0-1
+- Release 2019.0
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2018.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
