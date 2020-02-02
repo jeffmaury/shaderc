@@ -1,7 +1,7 @@
-diff -up shaderc-34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4/CMakeLists.txt.unbundle shaderc-34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4/CMakeLists.txt
---- shaderc-34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4/CMakeLists.txt.unbundle	2019-06-10 00:30:41.954316517 +0200
-+++ shaderc-34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4/CMakeLists.txt	2019-06-10 01:10:11.672758769 +0200
-@@ -70,7 +70,6 @@ endif(MSVC)
+diff -up shaderc-f76bb2f09f858c3014b329961d836964e515095d/CMakeLists.txt.orig shaderc-f76bb2f09f858c3014b329961d836964e515095d/CMakeLists.txt
+--- shaderc-f76bb2f09f858c3014b329961d836964e515095d/CMakeLists.txt.orig        2020-01-22 21:15:53.000000000 +0100
++++ shaderc-f76bb2f09f858c3014b329961d836964e515095d/CMakeLists.txt     2020-02-02 21:06:15.193583552 +0100
+@@ -92,7 +92,6 @@ endif(MSVC)
  
  # Configure subdirectories.
  # We depend on these for later projects, so they should come first.
@@ -9,16 +9,15 @@ diff -up shaderc-34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4/CMakeLists.txt.unbundl
  
  if(SHADERC_ENABLE_SPVC)
  add_subdirectory(libshaderc_spvc)
-@@ -81,12 +80,6 @@ add_subdirectory(libshaderc)
+@@ -103,11 +102,6 @@ add_subdirectory(libshaderc)
  add_subdirectory(glslc)
  add_subdirectory(examples)
  
 -add_custom_target(build-version
 -  ${PYTHON_EXECUTABLE}
 -  ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
--  ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR}
+-  ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/build-version.inc
 -  COMMENT "Update build-version.inc in the Shaderc build directory (if necessary).")
--
+ 
  function(define_pkg_config_file NAME LIBS)
    add_custom_target(${NAME}-pkg-config ALL
-     COMMAND ${CMAKE_COMMAND}

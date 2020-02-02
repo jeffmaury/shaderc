@@ -1,16 +1,16 @@
-# Release 2019.0
-%global commit          34c412f21f945f4ef6ed4453f8b5dc4bb9d739e4
+# Release 2019.1
+%global commit          f76bb2f09f858c3014b329961d836964e515095d
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20190609
-%global gitversion      v2019.0
+%global snapshotdate    20200202
+%global gitversion      v2019.1
 
 # Need to keep this in sync with spirv-tools
-%global spirv_commit    2297d4a3dfcbfd2a8b4312fab055ae26e3289fd3
-%global spirv_version   v2019.1
+%global spirv_commit    dc77030acc9c6fe7ca21fff54c5a9d7b532d7da6
+%global spirv_version   v1.5.1
 
 Name:           shaderc
-Version:        2019.0
-Release:        3%{?dist}
+Version:        2019.1
+Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -21,6 +21,10 @@ Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Patch0:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/463.patch#/0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
+# SPIRV includes have been moved under glslang/ in the latest version.
+Patch2:         0001-Fix-SPIRV-includes-location.patch
+# Handle new Glslang profile enum in switch
+Patch3:         0001-Handle-new-Glslang-profile-enum-in-switch.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -42,20 +46,17 @@ Shaderc aims to to provide:
    operating systems
  - increased functionality such as file #include support
 
-
 %package    -n  glslc
 Summary:        A command line compiler for GLSL/HLSL to SPIR-V
 
 %description -n glslc
 A command line compiler for GLSL/HLSL to SPIR-V.
 
-
 %package    -n  libshaderc
 Summary:        A library for compiling shader strings into SPIR-V
 
 %description -n libshaderc
 A library for compiling shader strings into SPIR-V.
-
 
 %package -n     libshaderc-devel
 Summary:        Development files for libshaderc
@@ -66,7 +67,6 @@ A library for compiling shader strings into SPIR-V.
 
 Development files for libshaderc.
 
-
 %package -n     libshaderc-static
 Summary:        A library for compiling shader strings into SPIR-V (static libraries)
 
@@ -74,7 +74,6 @@ Summary:        A library for compiling shader strings into SPIR-V (static libra
 A library for compiling shader strings into SPIR-V.
 
 Static libraries for libshaderc.
-
 
 %prep
 %autosetup -p1 -n %{name}-%{commit}
@@ -90,7 +89,6 @@ echo \"spirv-tools $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' /us
         >> glslc/src/build-version.inc
 echo \"glslang \'\'\" >> glslc/src/build-version.inc
 
-
 %build
 mkdir %_target_platform
 cd %_target_platform
@@ -103,32 +101,26 @@ cd %_target_platform
         -GNinja ..
 %ninja_build
 
-
 %install
 %ninja_install -C %_target_platform
 
-
 %check
 ctest -V
-
 
 %files -n glslc
 %doc glslc/README.asciidoc
 %license LICENSE
 %{_bindir}/glslc
 
-
 %files -n libshaderc
 %doc AUTHORS CHANGES CONTRIBUTORS README.md
 %license LICENSE
 %{_libdir}/libshaderc_shared.so.1*
 
-
 %files -n libshaderc-devel
 %{_includedir}/%{name}/
 %{_libdir}/libshaderc_shared.so
 %{_libdir}/pkgconfig/shaderc.pc
-
 
 %files -n libshaderc-static
 %license LICENSE
@@ -137,9 +129,10 @@ ctest -V
 %{_libdir}/pkgconfig/shaderc_static.pc
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
-
-
 %changelog
+* Sun Feb 02 20:53:01 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2019.1-1
+- Update to 2019.1
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2019.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 

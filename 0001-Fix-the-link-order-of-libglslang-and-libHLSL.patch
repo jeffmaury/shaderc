@@ -31,7 +31,7 @@ diff --git a/libshaderc_util/CMakeLists.txt b/libshaderc_util/CMakeLists.txt
 index 873540a..6d0c465 100644
 --- a/libshaderc_util/CMakeLists.txt
 +++ b/libshaderc_util/CMakeLists.txt
-@@ -34,8 +34,8 @@ endif(SHADERC_ENABLE_INSTALL)
+@@ -32,8 +32,8 @@ add_definitions(-DENABLE_HLSL)
  
  find_package(Threads)
  target_link_libraries(shaderc_util PRIVATE
