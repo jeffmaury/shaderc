@@ -1,15 +1,13 @@
-# Release 2019.1
-%global commit          f76bb2f09f858c3014b329961d836964e515095d
+# Release 2020.1
+%global commit          7c2aa93903558f017f31b35df163bce5fe849f45
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20200202
-%global gitversion      v2019.1
+%global snapshotdate    20200617
 
-# Need to keep this in sync with spirv-tools
-%global spirv_commit    dc77030acc9c6fe7ca21fff54c5a9d7b532d7da6
-%global spirv_version   v1.5.1
+# Glslang revision from packaged version
+%global glslang_version SDK-candidate-2-11-gc9b28b9f
 
 Name:           shaderc
-Version:        2019.1
+Version:        2020.1
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
@@ -21,10 +19,8 @@ Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Patch0:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/463.patch#/0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
-# SPIRV includes have been moved under glslang/ in the latest version.
-Patch2:         0001-Fix-SPIRV-includes-location.patch
-# Handle new Glslang profile enum in switch
-Patch3:         0001-Handle-new-Glslang-profile-enum-in-switch.patch
+# Fix bug in latest version (to drop in next version)
+Patch2:         0001-Rolling-5-dependencies-and-fixing-build.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -83,11 +79,14 @@ rm -rf third_party
 # Stolen from Gentoo
 # Create build-version.inc since we want to use our packaged
 # SPIRV-Tools and glslang
-echo \"shaderc $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' CHANGES) %{gitversion}\" \
+echo \"shaderc $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\? [[:digit:]]\{4\}-[[:digit:]]\{2\}-[[:digit:]]\{2\}$' CHANGES)\" \
         > glslc/src/build-version.inc
-echo \"spirv-tools $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\?' /usr/share/doc/spirv-tools/CHANGES) %{spirv_version}\" \
+echo \"spirv-tools $(grep -m1 -o '^v[[:digit:]]\{4\}\.[[:digit:]]\(-dev\)\? [[:digit:]]\{4\}-[[:digit:]]\{2\}-[[:digit:]]\{2\}$' /usr/share/doc/spirv-tools/CHANGES)\" \
         >> glslc/src/build-version.inc
-echo \"glslang \'\'\" >> glslc/src/build-version.inc
+echo \"glslang %{glslang_version}\" >> glslc/src/build-version.inc
+
+# Point to correct include
+sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/src/compiler.cc
 
 %build
 mkdir %_target_platform
@@ -130,6 +129,9 @@ ctest -V
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Wed Jun 17 20:15:27 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.1-1
+- Update to 2020.1
+
 * Sun Feb 02 20:53:01 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2019.1-1
 - Update to 2019.1
 
