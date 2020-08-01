@@ -8,7 +8,7 @@
 
 Name:           shaderc
 Version:        2020.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -129,6 +129,10 @@ ctest -V
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1-3
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
