@@ -1,8 +1,8 @@
 # Force out of source build
 %undefine __cmake_in_source_build
 
-# Release 2020.1
-%global commit          7c2aa93903558f017f31b35df163bce5fe849f45
+# Release 2020.2
+%global commit          4162bb13b426dab68ebe411ea7ef05f6343bea95
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
 %global snapshotdate    20200808
 
@@ -10,16 +10,13 @@
 %global glslang_version SDK-candidate-2-11-gc9b28b9f
 
 Name:           shaderc
-Version:        2020.1
+Version:        2020.2
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
 URL:            https://github.com/google/shaderc
 Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
-
-# https://github.com/google/shaderc/pull/463
-Patch0:         0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
 
@@ -103,7 +100,7 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %cmake3_install
 
 %check
-ctest -V
+%ctest3
 
 %files -n glslc
 %doc glslc/README.asciidoc
@@ -128,6 +125,9 @@ ctest -V
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Sat Aug 08 19:00:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.2-1
+- Update to 2020.2
+
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1-3
 - Second attempt - Rebuilt for
   https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
