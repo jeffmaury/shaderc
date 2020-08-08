@@ -1,14 +1,17 @@
+# Force out of source build
+%undefine __cmake_in_source_build
+
 # Release 2020.1
 %global commit          7c2aa93903558f017f31b35df163bce5fe849f45
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20200617
+%global snapshotdate    20200808
 
 # Glslang revision from packaged version
 %global glslang_version SDK-candidate-2-11-gc9b28b9f
 
 Name:           shaderc
 Version:        2020.1
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -16,11 +19,9 @@ URL:            https://github.com/google/shaderc
 Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 
 # https://github.com/google/shaderc/pull/463
-Patch0:         https://patch-diff.githubusercontent.com/raw/google/shaderc/pull/463.patch#/0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
+Patch0:         0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
-# Fix bug in latest version (to drop in next version)
-Patch2:         0001-Rolling-5-dependencies-and-fixing-build.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -89,19 +90,17 @@ echo \"glslang %{glslang_version}\" >> glslc/src/build-version.inc
 sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/src/compiler.cc
 
 %build
-mkdir %_target_platform
-cd %_target_platform
 # We disable the tests because they don't work with our unbundling of 3rd party.
 # See https://github.com/google/shaderc/issues/470
 %cmake3 -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_SKIP_RPATH=True \
         -DSHADERC_SKIP_TESTS=True \
         -DPYTHON_EXE=%{__python3} \
-        -GNinja ..
-%ninja_build
+        -GNinja
+%cmake3_build
 
 %install
-%ninja_install -C %_target_platform
+%cmake3_install
 
 %check
 ctest -V
