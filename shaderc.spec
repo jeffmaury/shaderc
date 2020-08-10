@@ -19,6 +19,7 @@ URL:            https://github.com/google/shaderc
 Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
+Patch2:         glslang_linker_flags.patch
 
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
@@ -125,7 +126,7 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
-* Sat Aug 08 19:00:03 CEST 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.2-1
+* Sat Aug 08 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.2-1
 - Update to 2020.2
 
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2020.1-3
