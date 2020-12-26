@@ -1,16 +1,16 @@
 # Force out of source build
 %undefine __cmake_in_source_build
 
-# Release 2020.3
-%global commit          1fce59794079f90ceb091190adbbb5499acd4e95
+# Release 2020.4
+%global commit          0dbd899941a43ffd55df527d65128b3b66e75c9c
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20200902
+%global snapshotdate    20201226
 
 # Glslang revision from packaged version
 %global glslang_version d550bebee919179c9e332a0ab28a67f8fe3ca239
 
 Name:           shaderc
-Version:        2020.3
+Version:        2020.4
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
@@ -126,6 +126,10 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Sat Dec 26 15:21:39 CET 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.4-1
+- Update to 2020.4
+- Close: rhbz#1906260
+
 * Sat Dec 05 2020 Robert-André Mauchin <zebob.m@gmail.com> - 2020.3-1
 - Update to 2020.3
 - Close: rhbz#1875183
