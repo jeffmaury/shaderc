@@ -2,16 +2,16 @@
 %undefine __cmake_in_source_build
 
 # Release 2020.4
-%global commit          0dbd899941a43ffd55df527d65128b3b66e75c9c
+%global commit          24275a11d81a6b33ef345878f8a4ef929c95a116
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20201226
+%global snapshotdate    20210219
 
 # Glslang revision from packaged version
-%global glslang_version d550bebee919179c9e332a0ab28a67f8fe3ca239
+%global glslang_version c594de23cdd790d64ad5f9c8b059baae0ee2941d
 
 Name:           shaderc
-Version:        2020.4
-Release:        2%{?dist}
+Version:        2020.5
+Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -126,6 +126,10 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Fri Mar  5 13:43:44 CET 2021 Robert-André Mauchin <zebob.m@gmail.com> - 2020.5-1
+- Update to 2020.5
+- Close: rhbz#1931006
+
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2020.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
