@@ -11,7 +11,7 @@
 
 Name:           shaderc
 Version:        2021.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -126,6 +126,9 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2021.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Sun May 30 11:26:42 CEST 2021 Robert-André Mauchin <zebob.m@gmail.com> - 2021.0-2
 - Update to 2021.0
 - Fix changelog
