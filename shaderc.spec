@@ -1,13 +1,13 @@
 # Force out of source build
 %undefine __cmake_in_source_build
 
-# Release 2020.4
-%global commit          bdd134d1b7eca01925c1919d2ea05fd3cd6843c7
+# Release 2021.1
+%global commit          adca18dcadd460eb517fe44f6cd2460fa0650ebe
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20210524
+%global snapshotdate    20210725
 
 # Glslang revision from packaged version
-%global glslang_version 18eef33bd7a4bf5ad8c69f99cb72022608cf6e73
+%global glslang_version ae2a562936cc8504c9ef2757cceaff163147834f
 
 Name:           shaderc
 Version:        2021.0
