@@ -2,15 +2,15 @@
 %undefine __cmake_in_source_build
 
 # Release 2021.1
-%global commit          adca18dcadd460eb517fe44f6cd2460fa0650ebe
+%global commit          315d39d082875047f4fbd004e6eedef14ff2db24
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20210725
+%global snapshotdate    20211110
 
 # Glslang revision from packaged version
-%global glslang_version ae2a562936cc8504c9ef2757cceaff163147834f
+%global glslang_version 600c5037baac82a80851d1fb95f3f09d34bb43e8
 
 Name:           shaderc
-Version:        2021.0
+Version:        2021.3
 Release:        %autorelease
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
