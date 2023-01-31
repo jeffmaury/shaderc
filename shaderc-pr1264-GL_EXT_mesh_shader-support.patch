@@ -1,0 +1,50 @@
+From 729aa2f92569b4a419ddda8fc0ccfadbf7dbc3f7 Mon Sep 17 00:00:00 2001
+From: Pankaj Mistry <pmistry@nvidia.com>
+Date: Wed, 29 Sep 2021 01:10:42 -0700
+Subject: [PATCH] Implement default builtin constants needed for
+ GL_EXT_mesh_shader.
+
+---
+ DEPS                             | 6 +++---
+ libshaderc_util/src/resources.cc | 9 +++++++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/DEPS b/DEPS
+index 01ce19d5e..68fac7869 100644
+--- a/DEPS
++++ b/DEPS
+@@ -5,11 +5,11 @@ vars = {
+   'khronos_git': 'https://github.com/KhronosGroup',
+ 
+   'effcee_revision' : '2ec8f8738118cc483b67c04a759fee53496c5659',
+-  'glslang_revision': 'f771c1293dce29e1ac3557cf994169136155c81f',
++  'glslang_revision': 'a53aa3e94f8b4bf22a6eb6e8a207fe91ab02b989',
+   'googletest_revision': '389cb68b87193358358ae87cc56d257fd0d80189',
+   're2_revision': '7107ebc4fbf7205151d8d2a57b2fc6e7853125d4',
+-  'spirv_headers_revision': '0bcc624926a25a2a273d07877fd25a6ff5ba1cfb',
+-  'spirv_tools_revision': '3a8a961cffb7699422a05dcbafdd721226b4547d',
++  'spirv_headers_revision': '87d5b782bec60822aa878941e6b13c0a9a954c9b',
++  'spirv_tools_revision': '4c456f7da67c5437a6fb7d4d20d78e2a5ae2acf2',
+ }
+ 
+ deps = {
+diff --git a/libshaderc_util/src/resources.cc b/libshaderc_util/src/resources.cc
+index d64e47fa0..6c662d3db 100644
+--- a/libshaderc_util/src/resources.cc
++++ b/libshaderc_util/src/resources.cc
+@@ -125,6 +125,15 @@ const TBuiltInResource kDefaultTBuiltInResource = {
+     /* .maxTaskWorkGroupSizeY_NV = */ 1,
+     /* .maxTaskWorkGroupSizeZ_NV = */ 1,
+     /* .maxMeshViewCountNV = */ 4,
++    /* .maxMeshOutputVerticesEXT = */ 256,
++    /* .maxMeshOutputPrimitivesEXT = */ 256,
++    /* .maxMeshWorkGroupSizeX_EXT = */ 128,
++    /* .maxMeshWorkGroupSizeY_EXT = */ 128,
++    /* .maxMeshWorkGroupSizeZ_EXT = */ 128,
++    /* .maxTaskWorkGroupSizeX_EXT = */ 128,
++    /* .maxTaskWorkGroupSizeY_EXT = */ 128,
++    /* .maxTaskWorkGroupSizeZ_EXT = */ 128,
++    /* .maxMeshViewCountEXT = */ 4,
+     /* .maxDualSourceDrawBuffersEXT = */ 1,
+     // This is the glslang TLimits structure.
+     // It defines whether or not the following features are enabled.
