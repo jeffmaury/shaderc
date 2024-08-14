@@ -1,14 +1,14 @@
 # Glslang revision from packaged version
-%global glslang_version 436237a4ab2be3225acedc66016ea2aa82946b37
+%global glslang_version 3ac03b8ad85a8e328a6182cddee8d05810bd5a2c
 
 Name:           shaderc
-Version:        2024.0
+Version:        2024.2
 Release:        %autorelease
 Summary:        Collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        Apache-2.0
 URL:            https://github.com/google/shaderc
-Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source:         %{url}/archive/%{glslang_version}.tar.gz
 # Patch to unbundle 3rd party code
 Patch:          0001-Drop-third-party-code-in-CMakeLists.txt.patch
 Patch:          glslang_linker_flags.patch
@@ -65,7 +65,7 @@ A library for compiling shader strings into SPIR-V.
 Static libraries for libshaderc.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{glslang_version}
 
 rm -r third_party
 
